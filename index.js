@@ -192,6 +192,40 @@ app.post("/getAnswers", async (req, res) => {
     }
 })
 
+//POST: Delete Opinion
+app.post("/deleteOpinion", async (req,res) => {
+    const {id} = req.body;
+
+    const data = await Opinion.findByIdAndDelete(id);
+
+    if(data) {
+        res.json("Opinion Deleted");
+    }
+})
+
+//POST: Delete Question
+app.post("/deleteQuestion", async (req,res) => {
+    const {id, question} = req.body;
+
+    const data = await Question.findByIdAndDelete(id);
+    const deleteAnswers = await Answer.deleteMany({question}, {new:true});
+
+    if(data) {
+        res.json("Question Deleted");
+    }
+})
+
+//POST: Delete Answer
+app.post("/deleteAnswer", async (req,res) => {
+    const {id} = req.body;
+
+    const data = await Answer.findByIdAndDelete(id);
+
+    if(data) {
+        res.json("Answer Deleted");
+    }
+})
+
 app.listen(port, () => {
     console.log("Listening to port no " + port);
 })
