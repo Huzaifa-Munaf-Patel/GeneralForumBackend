@@ -8,6 +8,7 @@ const cors = require("cors");
 const Question = require("./Database/Models/Questions");
 const Answer = require("./Database/Models/Answers");
 const Opinion = require("./Database/Models/Opinions");
+const Project_Test = require("./Database/Models/Project_Test");
 const port = process.env.PORT || 8000;
 
 app.use(cors());
@@ -224,6 +225,18 @@ app.post("/deleteAnswer", async (req,res) => {
     if(data) {
         res.json("Answer Deleted");
     }
+})
+
+//POST: Add Project Test
+app.post("/addTest", async (req,res) => {
+    const {projectName, keyName, message} = req.body;
+
+    const data = new Project_Test({
+        projectName, keyName, message
+    })
+
+    const savedData = await data.save();
+    res.json(savedData)
 })
 
 app.listen(port, () => {
